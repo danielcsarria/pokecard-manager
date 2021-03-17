@@ -14,6 +14,7 @@ export class AuthService {
 
   userData: User;
   authMessage = new EventEmitter<string>();
+  userInfo = new EventEmitter<any>();
   
   constructor(
     public afs: AngularFirestore,   // Inject Firestore service
@@ -41,8 +42,9 @@ export class AuthService {
           this.router.navigate(['dashboard'])
         });
         this.setUserData(result.user);
+        this.userInfo.emit(this.getUserData())
       })
-      .catch((error) => {
+      .catch((error) => { 
         this.authMessage.emit(error.message)
       })
   }
@@ -81,7 +83,10 @@ export class AuthService {
         this.ngZone.run(() => {
           this.router.navigate(['dashboard'])
         })
+        
         this.setUserData(result.user)
+        console.log(result.user)
+        this.userInfo.emit(result.user)
       })
       .catch((error) => {
         this.authMessage.emit(error.message)
@@ -101,6 +106,9 @@ export class AuthService {
       photoURL: user.photoURL,
       emailVerified: user.emailVerified
     }
+    //this.userInfo.emit(userData)
+    
+
     return userRef.set(userData, {
       merge: true
     })
@@ -111,6 +119,12 @@ export class AuthService {
       localStorage.removeItem('user');
       this.router.navigate(['login']);
     })
+  }
+
+  getUserData() {
+    const user = JSON.parse(localStorage.getItem('user'));
+    this.userInfo.emit(user)
+    return user;
   }
 
   

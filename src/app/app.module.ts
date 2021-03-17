@@ -14,6 +14,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import {MatMenuModule} from '@angular/material/menu';
+import {MatIconModule} from '@angular/material/icon';
+
 
 
 
@@ -22,6 +25,7 @@ import { AngularFireAuthModule } from "@angular/fire/auth";
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { environment } from '../environments/environment';
 import { FormsModule,  ReactiveFormsModule, } from '@angular/forms';
+import { NavComponent } from './dashboard/nav/nav.component';
 
 
 @NgModule({
@@ -32,7 +36,8 @@ import { FormsModule,  ReactiveFormsModule, } from '@angular/forms';
     RegisterComponent,
     ForgotPasswordComponent,
     VerifyEmailComponent,
-    DashboardComponent
+    DashboardComponent,
+    NavComponent
   ],
   imports: [
     BrowserModule,
@@ -41,6 +46,8 @@ import { FormsModule,  ReactiveFormsModule, } from '@angular/forms';
     MatCardModule,
     MatInputModule,
     MatButtonModule,
+    MatMenuModule,
+    MatIconModule,
     FormsModule,
     ReactiveFormsModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),

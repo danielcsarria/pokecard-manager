@@ -1,3 +1,5 @@
+@import "./variables.scss";
+
 .login-form {
     display: flex;
     flex-direction: column;
@@ -17,5 +19,31 @@
     }
     .error-container {
         margin: 10px 0 30px;
+    }
+}
+
+.container {
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+    &.wide {
+        max-width: 1400px;
+    }
+}
+
+.flex {
+    display: flex;
+    &.center {
+        align-items: center;
+    }
+    &.row  {
+        flex-direction: row;
+    }
+    &.column {
+        flex-direction: column;
+    }
+    &.space-between {
+        justify-content: space-between;
     }
 }

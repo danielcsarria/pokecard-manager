@@ -1,0 +1,40 @@
+<div class="nav flex center row">
+    <div class="container wide flex space-between">
+        <div class="left-container flex center">
+            <div class="logo">
+                Pokemon Card Manager
+            </div>
+        </div>
+        <div class="right-container flex center space-between">
+            <div class="profile-container flex center space-between">
+                <div class="greeting">
+                    <div class="display-name" *ngIf="userName; else noUserName">
+                        Hello Trainer {{userName}}
+                    </div>
+                    <ng-template #noUserName>
+                        Hello Trainer
+                    </ng-template>
+                    
+                </div>
+                <div class="profile-image">
+                    <img *ngIf="userImage; else noProfileImage" src="{{userImage}}" alt="">
+                    <ng-template #noProfileImage >
+                        <img src="https://pngimg.com/uploads/pokeball/pokeball_PNG21.png" alt="">    
+                    </ng-template>
+                    
+                </div>
+            </div>
+            <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                <mat-icon>apps</mat-icon>
+              </button>
+              <mat-menu #menu="matMenu">
+                <button mat-menu-item (click)="onLogout()">
+                  <mat-icon>exit_to_app</mat-icon>
+                  <span>Logout</span>
+                </button>
+              </mat-menu>
+        </div>
+         
+    </div>
+</div>
+

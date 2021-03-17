@@ -1,0 +1,41 @@
+@import "../../shared/styles/global-styles.scss";
+
+.nav {
+    position: fixed;
+    width: 100%;
+    min-height: 70px;
+    top: 0;
+    left: 0;
+    background-color: $primary;
+    z-index: 100;
+    box-shadow: 0px 7px 15px 2px #000000;
+    .logo {
+        color: white;
+        font-weight: bold;
+        font-size: 18px;
+    }
+    .left-container,
+    .right-container {
+        width: fit-content;
+    }
+    .profile-container {
+        margin-right: 10px;
+        .greeting {
+            color: white;
+            // font-weight: bold;
+            font-size: 18px;
+            margin-right: 20px;
+        }
+        .profile-image {
+            width: 50px;
+            img {
+                border-radius: 50%;
+                width: 100%;
+            }
+        }
+    }
+    button[mat-icon-button] {
+        color: white;
+    }
+    
+}
