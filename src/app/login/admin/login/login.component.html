@@ -1,0 +1,90 @@
+<h1>Welcome</h1>
+<p>Sign in to continue</p>
+<form class="login-form">
+
+    <mat-form-field class="full-width">
+        <mat-label>Email</mat-label>
+        <input 
+            type="email" 
+            matInput 
+            [formControl]="emailFormControl" 
+            [errorStateMatcher]="matcher"
+            placeholder="Ex. pat@example.com"
+            #userEmail
+        >
+
+        <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">
+        Please enter a valid email address
+        </mat-error>
+
+        <mat-error *ngIf="emailFormControl.hasError('required')">
+            Email is <strong>required</strong>
+      
+        </mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="full-width">
+
+        <mat-label>Password</mat-label>
+
+        <input 
+            type="password" 
+            matInput 
+            [formControl]="passwordFormControl" 
+            [errorStateMatcher]="matcher" 
+            #userPassword
+        >
+
+
+        <mat-error *ngIf="passwordFormControl.hasError('email') && !passwordFormControl.hasError('required')">
+          Please enter a valid email address
+        </mat-error>
+
+        <mat-error *ngIf="passwordFormControl.hasError('required')">
+          Password is <strong>required</strong>
+        </mat-error>
+
+    </mat-form-field>
+
+    <div 
+        class="error-container"
+        *ngIf="authMessage"
+    >
+        <mat-error>
+            {{authMessage}}
+        </mat-error>
+    </div>
+
+    <div class="google-auth">
+
+        <a
+            mat-raised-button
+            color="accent"
+            (click)="onGoogleLogin($event)"
+        >
+            <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd"><path d="M22.288 21h-20.576c-.945 0-1.712-.767-1.712-1.712v-13.576c0-.945.767-1.712 1.712-1.712h20.576c.945 0 1.712.767 1.712 1.712v13.576c0 .945-.767 1.712-1.712 1.712zm-10.288-6.086l-9.342-6.483-.02 11.569h18.684v-11.569l-9.322 6.483zm8.869-9.914h-17.789l8.92 6.229s6.252-4.406 8.869-6.229z"/></svg> Login with Google
+
+        </a>
+
+    </div>
+
+    <div class="form-footer">
+        <button 
+            mat-raised-button 
+            color="primary" 
+            (click)="onLogin(userEmail.value, userPassword.value)"
+        >
+            Login
+        </button>
+
+
+        <a mat-raised-button color="accent"
+            [routerLink]="['register']"
+        >Register</a>
+    </div>
+
+</form>
+
+<div class="forgot-password-link">
+    <a mat-button [routerLink]="['forgot-password']">Forgot Password?</a>
+</div>

@@ -1,0 +1,21 @@
+.login-form {
+    display: flex;
+    flex-direction: column;
+    padding: 0 20px 30px 20px;
+    .form-footer {
+        text-align: right;
+        button {
+            margin-right: 15px;
+        }
+    }
+    .google-auth {
+        margin: 10px 0 30px;
+        svg {
+            margin-right: 5px;
+            
+        }
+    }
+    .error-container {
+        margin: 10px 0 30px;
+    }
+}
