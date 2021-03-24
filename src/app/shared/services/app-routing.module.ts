@@ -7,6 +7,8 @@ import { LoginComponent } from '../../login/admin/login/login.component';
 import { RegisterComponent } from '../../login/admin/register/register.component';
 import { VerifyEmailComponent } from '../../login/admin/verify-email/verify-email.component';
 import { AuthComponent } from '../../login/auth.component';
+import { SearchComponent } from 'src/app/dashboard/search/search.component';
+import { SetlistComponent } from 'src/app/dashboard/setlist/setlist.component';
 
 const routes: Routes = [
   { path: 'login', component: AuthComponent, children: [
@@ -15,12 +17,17 @@ const routes: Routes = [
     {path: 'forgot-password', component: ForgotPasswordComponent},
     {path: 'verify-email', component: VerifyEmailComponent},
   ]},
-  { path: 'dashboard', component: DashboardComponent, canActivateChild:[AuthGuardService] }
+  { path: 'dashboard', component: DashboardComponent, canActivateChild:[AuthGuardService], children: [
+    {path: '', component: SearchComponent},
+    {path: 'set-list', component: SetlistComponent},
+  ]}
   
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, {
+    onSameUrlNavigation: 'reload',
+  })],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

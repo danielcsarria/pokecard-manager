@@ -1,20 +1,19 @@
-import { EventEmitter, Injectable, NgZone} from '@angular/core';
+import { EventEmitter, Injectable, NgZone, Output} from '@angular/core';
 import { User } from "../models/user.model";
 import  firebase  from 'firebase/app';
 import { AngularFireAuth } from "@angular/fire/auth";
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { Router } from "@angular/router";
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-
-
   userData: User;
   authMessage = new EventEmitter<string>();
-  userInfo = new EventEmitter<any>();
+  userInfo = new BehaviorSubject<any>(null);
   
   constructor(
     public afs: AngularFirestore,   // Inject Firestore service
@@ -42,7 +41,7 @@ export class AuthService {
           this.router.navigate(['dashboard'])
         });
         this.setUserData(result.user);
-        this.userInfo.emit(this.getUserData())
+        this.userInfo.next(this.getUserData())
       })
       .catch((error) => { 
         this.authMessage.emit(error.message)
@@ -83,10 +82,8 @@ export class AuthService {
         this.ngZone.run(() => {
           this.router.navigate(['dashboard'])
         })
-        
         this.setUserData(result.user)
-        console.log(result.user)
-        this.userInfo.emit(result.user)
+        this.userInfo.next(result.user)
       })
       .catch((error) => {
         this.authMessage.emit(error.message)
@@ -106,9 +103,7 @@ export class AuthService {
       photoURL: user.photoURL,
       emailVerified: user.emailVerified
     }
-    //this.userInfo.emit(userData)
-    
-
+    this.userInfo.next(userData)
     return userRef.set(userData, {
       merge: true
     })
@@ -123,7 +118,6 @@ export class AuthService {
 
   getUserData() {
     const user = JSON.parse(localStorage.getItem('user'));
-    this.userInfo.emit(user)
     return user;
   }
 

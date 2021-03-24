@@ -1,5 +1,21 @@
 @import "./variables.scss";
 
+h1 {
+    color: white;
+    font-size: 36px;
+}
+
+
+h2 {
+    color: white;
+    font-size: 28px;
+}
+
+h3 {
+    color: white;
+    font-size: 22px;
+}
+
 .login-form {
     display: flex;
     flex-direction: column;
@@ -39,6 +55,7 @@
     }
     &.row  {
         flex-direction: row;
+        flex-wrap: wrap;
     }
     &.column {
         flex-direction: column;
@@ -46,4 +63,19 @@
     &.space-between {
         justify-content: space-between;
     }
+}
+
+.card {
+    width: 32%;
+    margin-bottom: 2%;
+    cursor: pointer;
+    transition: 150ms ease-in-out;
+    &:hover {
+        transform: scale(1.05);
+        box-shadow: 0 10px 20px rgba(0,0,0,.12), 0 4px 8px rgba(0,0,0,.06);   
+    }
+}
+
+.content-container {
+    padding-top: 50px;
 }

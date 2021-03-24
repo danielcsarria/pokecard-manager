@@ -1,0 +1,15 @@
+@import "../../shared/styles/global-styles.scss";
+
+.search-component {
+    position: relative;
+    width: 100%;
+    text-align: center;
+}
+
+form {
+    width: 100%;
+    mat-form-field {
+        width: 100%;
+        color: white;
+    }
+}

@@ -9,10 +9,30 @@
     background-color: $primary;
     z-index: 100;
     box-shadow: 0px 7px 15px 2px #000000;
+    overflow: hidden;
     .logo {
+        position: relative;
         color: white;
         font-weight: bold;
-        font-size: 18px;
+        font-size: 22px;
+        cursor: pointer;
+        .pikachu {
+            img {
+                width: 100px;
+                position: absolute;
+                right: -28px;
+                bottom: -91px;
+                transition: 150ms ease-in-out;
+            }
+            
+        }
+        &:hover {
+            .pikachu {
+                img {
+                    bottom: -67px;
+                }
+            }
+        }
     }
     .left-container,
     .right-container {
@@ -28,6 +48,7 @@
         }
         .profile-image {
             width: 50px;
+            cursor: pointer;
             img {
                 border-radius: 50%;
                 width: 100%;

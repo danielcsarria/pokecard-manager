@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './shared/services/app-routing.module';
 import { AppComponent } from './app.component';
@@ -20,12 +21,17 @@ import {MatIconModule} from '@angular/material/icon';
 
 
 
+
 import { AngularFireModule } from "@angular/fire";
 import { AngularFireAuthModule } from "@angular/fire/auth";
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { environment } from '../environments/environment';
 import { FormsModule,  ReactiveFormsModule, } from '@angular/forms';
 import { NavComponent } from './dashboard/nav/nav.component';
+import { FooterComponent } from './dashboard/footer/footer.component';
+import { SearchComponent } from './dashboard/search/search.component';
+import { SetlistComponent } from './dashboard/setlist/setlist.component';
+import { SetCardComponent } from './dashboard/setlist/set-card/set-card.component';
 
 
 @NgModule({
@@ -37,7 +43,11 @@ import { NavComponent } from './dashboard/nav/nav.component';
     ForgotPasswordComponent,
     VerifyEmailComponent,
     DashboardComponent,
-    NavComponent
+    NavComponent,
+    FooterComponent,
+    SearchComponent,
+    SetlistComponent,
+    SetCardComponent
   ],
   imports: [
     BrowserModule,
@@ -53,7 +63,7 @@ import { NavComponent } from './dashboard/nav/nav.component';
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireAuthModule,
     AngularFirestoreModule,
-    
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

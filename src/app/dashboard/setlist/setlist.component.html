@@ -1,0 +1,14 @@
+<div class="container">
+    <div class="set-container">
+        <h1>Sets</h1>
+        <hr>
+        <div class="flex row space-between content-container">
+            <app-set-card 
+                class="card"
+                *ngFor="let set of setList"
+                [set]="set"
+            ></app-set-card>
+        </div>
+    </div>
+</div> 
+  

@@ -1,38 +1,39 @@
 <div class="nav flex center row">
     <div class="container wide flex space-between">
         <div class="left-container flex center">
-            <div class="logo">
+            <div class="logo"
+                (click)="onLogoClick()"
+            >
                 Pokemon Card Manager
+                <div class="pikachu">
+                    <img src="https://webstockreview.net/images/pikachu-clipart-clear-background-10.png" alt="">
+                </div>
             </div>
         </div>
         <div class="right-container flex center space-between">
             <div class="profile-container flex center space-between">
                 <div class="greeting">
-                    <div class="display-name" *ngIf="userName; else noUserName">
-                        Hello Trainer {{userName}}
+                    <div class="display-name" *ngIf="userInfo.displayName; else noUserName">
+                        Hello Trainer {{userInfo.displayName}}
                     </div>
                     <ng-template #noUserName>
                         Hello Trainer
                     </ng-template>
-                    
                 </div>
-                <div class="profile-image">
-                    <img *ngIf="userImage; else noProfileImage" src="{{userImage}}" alt="">
+                <div class="profile-image" [matMenuTriggerFor]="userMenu" >
+                    <img *ngIf="userInfo.photoURL; else noProfileImage" src="{{userInfo.photoURL}}" alt="">
                     <ng-template #noProfileImage >
                         <img src="https://pngimg.com/uploads/pokeball/pokeball_PNG21.png" alt="">    
                     </ng-template>
                     
                 </div>
             </div>
-            <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
-                <mat-icon>apps</mat-icon>
-              </button>
-              <mat-menu #menu="matMenu">
-                <button mat-menu-item (click)="onLogout()">
-                  <mat-icon>exit_to_app</mat-icon>
-                  <span>Logout</span>
-                </button>
-              </mat-menu>
+            <mat-menu #userMenu="matMenu">
+            <button mat-menu-item (click)="onLogout()">
+                <mat-icon>exit_to_app</mat-icon>
+                <span>Logout</span>
+            </button>
+            </mat-menu>
         </div>
          
     </div>
