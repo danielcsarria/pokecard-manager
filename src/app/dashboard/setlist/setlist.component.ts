@@ -1,6 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ApiService } from 'src/app/shared/services/api.service';
 import { CardSet } from '../../shared/models/cardset.model';
+import {FormControl} from '@angular/forms';
+import {Observable} from 'rxjs';
+import {map, startWith} from 'rxjs/operators';
+import {FilterPipe} from '../../shared/pipes/filter.pipe';
 
 @Component({
   selector: 'app-setlist',
@@ -8,33 +12,53 @@ import { CardSet } from '../../shared/models/cardset.model';
   styleUrls: ['./setlist.component.scss']
 })
 export class SetlistComponent implements OnInit {
-
+  myControl = new FormControl();
   setList : CardSet[];
+  options: string[] = [];
+  filteredOptions: Observable<string[]>;
+  filteredValue : string;
+
   
   constructor(
     private apiService: ApiService
-  ) { 
-  }
+  ) {  }
 
   ngOnInit(): void {
-    this.getSetList()
+    this.getSetList();
+    this.filteredOptions = this.myControl.valueChanges
+      .pipe(
+        startWith(''),
+        map(value => this._filter(value))
+      );
+  }
+
+  private _filter(value: string): string[] {
+    const filterValue = value.toLowerCase();
+    return this.options.filter(option => option.toLowerCase().includes(filterValue));
   }
 
   getSetList() {
-    const localSetList = localStorage.getItem('setList')
+    const localSetList = JSON.parse(localStorage.getItem('setList'))
     if(localSetList) {
-      this.setList = JSON.parse(localSetList);
+      this.setList = localSetList;
+      this.setOptions(localSetList);     
     } else {
       this.apiService.getSetList().subscribe((data: any[]) => {
-        let setList = []
+        let setList = [];
         data['data'].map((set) => {
-          setList.push(new CardSet(set.name, set.series, set.releaseDate, set.images.logo))
+          setList.push(new CardSet(set.name, set.series, set.releaseDate, set.images.logo))  
         })
-        this.setList = setList
-        localStorage.setItem('setList', JSON.stringify(setList))
+        this.setList = setList;
+        localStorage.setItem('setList', JSON.stringify(setList));
       })
     }
     
+  }
+
+  setOptions(options: any[]) {
+    options.map((option) => {
+      this.options.push(option.name);
+    })
   }
 
 }

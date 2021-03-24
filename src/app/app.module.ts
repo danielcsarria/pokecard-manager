@@ -17,10 +17,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatIconModule} from '@angular/material/icon';
-
-
-
-
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
 
 import { AngularFireModule } from "@angular/fire";
 import { AngularFireAuthModule } from "@angular/fire/auth";
@@ -32,6 +29,7 @@ import { FooterComponent } from './dashboard/footer/footer.component';
 import { SearchComponent } from './dashboard/search/search.component';
 import { SetlistComponent } from './dashboard/setlist/setlist.component';
 import { SetCardComponent } from './dashboard/setlist/set-card/set-card.component';
+import { FilterPipe } from './shared/pipes/filter.pipe';
 
 
 @NgModule({
@@ -47,7 +45,8 @@ import { SetCardComponent } from './dashboard/setlist/set-card/set-card.componen
     FooterComponent,
     SearchComponent,
     SetlistComponent,
-    SetCardComponent
+    SetCardComponent,
+    FilterPipe
   ],
   imports: [
     BrowserModule,
@@ -58,6 +57,7 @@ import { SetCardComponent } from './dashboard/setlist/set-card/set-card.componen
     MatButtonModule,
     MatMenuModule,
     MatIconModule,
+    MatAutocompleteModule,
     FormsModule,
     ReactiveFormsModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),

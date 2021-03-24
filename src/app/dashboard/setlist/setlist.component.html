@@ -2,10 +2,30 @@
     <div class="set-container">
         <h1>Sets</h1>
         <hr>
+        <div class="search-container">
+            <form>
+                <mat-form-field class="example-full-width">
+                    <mat-label>Search Set</mat-label>
+                    <input type="text"
+                            placeholder="Ex: Diamond & Pearl"
+                            aria-label="Number"
+                            matInput
+                            [formControl]="myControl"
+                            [matAutocomplete]="auto"
+                            [(ngModel)]="filteredValue"
+                            >
+                    <mat-autocomplete #auto="matAutocomplete">
+                    <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                        {{option}}
+                    </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+            </form>
+        </div>
         <div class="flex row space-between content-container">
             <app-set-card 
                 class="card"
-                *ngFor="let set of setList"
+                *ngFor="let set of setList | filter : filteredValue"
                 [set]="set"
             ></app-set-card>
         </div>
