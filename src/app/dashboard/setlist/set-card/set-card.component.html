@@ -1,4 +1,7 @@
-<mat-card class="set-card">
+<mat-card 
+    class="set-card"
+    (click)="onSetClick(set.id)"
+>
     <mat-card-header>
       <mat-card-title>{{set.name}}</mat-card-title>
       <mat-card-subtitle>{{set.series}} - {{set.releaseDate}}</mat-card-subtitle>

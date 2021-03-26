@@ -8,13 +8,23 @@ import { Observable } from 'rxjs';
 export class ApiService {
 
   setList: any;
+  private baseURL: string = 'https://api.pokemontcg.io/v2/';
 
   constructor(
     private http: HttpClient
   ) { }
 
   public getSetList(){
-    return this.http.get("https://api.pokemontcg.io/v2/sets")
+    return this.http.get(this.baseURL + "sets")
   }
+
+  public getSetCardList(setID: string) {
+    return this.http.get(this.baseURL + 'cards?q=set.id:' + setID)
+  }
+
+  public getCard(cardID: string) {
+    return this.http.get(this.baseURL + 'cards/' + cardID)
+  }
+  
 
 }

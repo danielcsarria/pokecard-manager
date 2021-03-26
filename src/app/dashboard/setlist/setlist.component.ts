@@ -1,10 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ApiService } from 'src/app/shared/services/api.service';
 import { CardSet } from '../../shared/models/cardset.model';
 import {FormControl} from '@angular/forms';
 import {Observable} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
-import {FilterPipe} from '../../shared/pipes/filter.pipe';
 
 @Component({
   selector: 'app-setlist',
@@ -46,9 +45,10 @@ export class SetlistComponent implements OnInit {
       this.apiService.getSetList().subscribe((data: any[]) => {
         let setList = [];
         data['data'].map((set) => {
-          setList.push(new CardSet(set.name, set.series, set.releaseDate, set.images.logo))  
+          setList.push(new CardSet(set.name, set.id, set.series, set.releaseDate, set.images.logo))  
         })
         this.setList = setList;
+        this.setOptions(setList);
         localStorage.setItem('setList', JSON.stringify(setList));
       })
     }

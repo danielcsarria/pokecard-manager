@@ -18,6 +18,11 @@ import { MatButtonModule } from '@angular/material/button';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatIconModule} from '@angular/material/icon';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import {MatTableModule} from '@angular/material/table';
+import {MatDividerModule} from '@angular/material/divider';
+
+
 
 import { AngularFireModule } from "@angular/fire";
 import { AngularFireAuthModule } from "@angular/fire/auth";
@@ -30,6 +35,9 @@ import { SearchComponent } from './dashboard/search/search.component';
 import { SetlistComponent } from './dashboard/setlist/setlist.component';
 import { SetCardComponent } from './dashboard/setlist/set-card/set-card.component';
 import { FilterPipe } from './shared/pipes/filter.pipe';
+import { CardlistComponent } from './dashboard/cardlist/cardlist.component';
+import { CardComponent } from './dashboard/cardlist/card/card.component';
+import { CardDetailComponent } from './dashboard/cardlist/card-detail/card-detail.component';
 
 
 @NgModule({
@@ -46,7 +54,10 @@ import { FilterPipe } from './shared/pipes/filter.pipe';
     SearchComponent,
     SetlistComponent,
     SetCardComponent,
-    FilterPipe
+    FilterPipe,
+    CardlistComponent,
+    CardComponent,
+    CardDetailComponent
   ],
   imports: [
     BrowserModule,
@@ -58,6 +69,9 @@ import { FilterPipe } from './shared/pipes/filter.pipe';
     MatMenuModule,
     MatIconModule,
     MatAutocompleteModule,
+    MatButtonToggleModule,
+    MatTableModule,
+    MatDividerModule,
     FormsModule,
     ReactiveFormsModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),

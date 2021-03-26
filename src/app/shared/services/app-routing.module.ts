@@ -9,17 +9,21 @@ import { VerifyEmailComponent } from '../../login/admin/verify-email/verify-emai
 import { AuthComponent } from '../../login/auth.component';
 import { SearchComponent } from 'src/app/dashboard/search/search.component';
 import { SetlistComponent } from 'src/app/dashboard/setlist/setlist.component';
+import { CardlistComponent } from 'src/app/dashboard/cardlist/cardlist.component';
+import { CardDetailComponent } from 'src/app/dashboard/cardlist/card-detail/card-detail.component';
 
 const routes: Routes = [
   { path: 'login', component: AuthComponent, children: [
-    {path: '', component: LoginComponent},
-    {path: 'register', component: RegisterComponent},
-    {path: 'forgot-password', component: ForgotPasswordComponent},
-    {path: 'verify-email', component: VerifyEmailComponent},
+    {path: '', component: LoginComponent, pathMatch: 'full'},
+    {path: 'register', component: RegisterComponent, pathMatch: 'full'},
+    {path: 'forgot-password', component: ForgotPasswordComponent, pathMatch: 'full'},
+    {path: 'verify-email', component: VerifyEmailComponent, pathMatch: 'full'},
   ]},
   { path: 'dashboard', component: DashboardComponent, canActivateChild:[AuthGuardService], children: [
-    {path: '', component: SearchComponent},
-    {path: 'set-list', component: SetlistComponent},
+    {path: '', component: SearchComponent, pathMatch: 'full'},
+    {path: 'set-list', component: SetlistComponent, pathMatch: 'full'},
+    {path: 'card-list', component: CardlistComponent, pathMatch: 'full'},
+    {path: 'card', component: CardDetailComponent, pathMatch: 'full'}
   ]}
   
 ];

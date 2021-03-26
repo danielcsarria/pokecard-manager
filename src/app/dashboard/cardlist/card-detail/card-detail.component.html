@@ -1,0 +1,86 @@
+<div class="container wide content-container">
+    
+    <div class="flex row">
+        <div class="left-container">
+            <img src="{{cardDetail.images.large}}" alt="{{cardDetail.name}}">
+        </div>
+        <div class="right-container">
+            <div class="card-title">
+                <h1><strong>{{cardDetail.name}}</strong></h1>
+                <h2>{{cardDetail.supertype}} - {{cardDetail.subtypes.join(", ")}}</h2>
+            </div>
+            <mat-divider></mat-divider>
+            <div class="prices">
+                <h3>Prices</h3>
+                <a mat-flat-button href="{{cardDetail.tcgplayer.url}}" target="_blank">Buy Now From TCGplayer</a>
+                <div class="last-updated">Last Updated: {{cardDetail.tcgplayer.updatedAt}}</div>
+                <div class="prices-container">
+
+                    <div class="price-holo flex row space-between" *ngIf="cardDetail.tcgplayer.prices.holofoil">
+                        <div class="market">
+                            <div class="sub-title">Holofoil Market</div>
+                            <div class="price-amount">{{cardDetail.tcgplayer.prices.holofoil.market | currency}}</div>
+                        </div>
+                        <div class="low">
+                            <div class="sub-title">Holofoil Low</div>
+                            <div class="price-amount">{{cardDetail.tcgplayer.prices.holofoil.low | currency}}</div>
+                        </div>
+                        <div class="mid">
+                            <div class="sub-title">Holofoil mid</div>
+                            <div class="price-amount">{{cardDetail.tcgplayer.prices.holofoil.mid | currency}}</div>
+                        </div>
+                        <div class="high">
+                            <div class="sub-title">Holofoil high</div>
+                            <div class="price-amount">{{cardDetail.tcgplayer.prices.holofoil.high | currency}}</div>
+                        </div>
+                    </div>
+
+                    <div class="price-holo flex row space-between" *ngIf="cardDetail.tcgplayer.prices.normal">
+                        <div class="market">
+                            <div class="sub-title">Normal Market</div>
+                            <div class="price-amount">{{cardDetail.tcgplayer.prices.normal.market | currency}}</div>
+                        </div>
+                        <div class="low">
+                            <div class="sub-title">Normal Low</div>
+                            <div class="price-amount">{{cardDetail.tcgplayer.prices.normal.low | currency}}</div>
+                        </div>
+                        <div class="mid">
+                            <div class="sub-title">Normal mid</div>
+                            <div class="price-amount">{{cardDetail.tcgplayer.prices.normal.mid | currency}}</div>
+                        </div>
+                        <div class="high">
+                            <div class="sub-title">Normal high</div>
+                            <div class="price-amount">{{cardDetail.tcgplayer.prices.normal.high | currency}}</div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <mat-divider></mat-divider>
+            <div class="card-details">
+                <div class="abilities" *ngIf="cardDetail.abilities">
+                    <h3>Abilities</h3>
+                    <div class="abilities-container">
+                        <div class="abilities-detail" *ngFor="let ab of cardDetail.abilities">
+                            <div class="sub-title flex row center">
+                                <div class="a-icon">
+                                    <img 
+                                        src="../../../../assets/images/{{(ab.type === 'Ability') ? 'ability' : 'pokepower'}}.png" 
+                                        alt="{{ab.type}}">
+                                </div>
+                                {{ab.name}} 
+                            </div>
+                            <div class="ability-desc">
+                                {{ab.text}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+
+    </div>
+
+
+</div>

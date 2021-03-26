@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-set-card',
@@ -9,9 +10,16 @@ export class SetCardComponent implements OnInit {
 
   @Input() set: any;
 
-  constructor() { }
+  constructor(
+    private route: Router
+  ) { }
 
   ngOnInit(): void {
+  }
+
+  onSetClick(setId: string) {
+    console.log(setId)
+    this.route.navigate(['dashboard','card-list'], {queryParams: {set: setId}})
   }
 
 }

@@ -16,6 +16,10 @@ h3 {
     font-size: 22px;
 }
 
+h4 {
+    font-size: 18px;
+}
+
 .login-form {
     display: flex;
     flex-direction: column;
@@ -65,9 +69,16 @@ h3 {
     }
 }
 
+.five {
+    .card {
+        width: 18%;
+        margin: 1%;
+    }
+}
+
 .card {
-    width: 32%;
-    margin-bottom: 2%;
+    width: 31%;
+    margin: 1%;
     cursor: pointer;
     transition: 150ms ease-in-out;
     &:hover {
@@ -83,5 +94,28 @@ h3 {
 form {
     input {
         color: white;
+    }
+}
+
+.set-container {
+    padding-top: 50px;
+}
+
+.search-container {
+    padding: 30px 0 0;
+}
+
+table {
+    width: 100%;
+    .type {
+        width: 25px;
+        height: 25px;
+        margin-right: 5px;
+        img {
+            width: 100%;
+        }
+    }
+    .mat-cell {
+        width: 10%;
     }
 }

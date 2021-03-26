@@ -1,0 +1,25 @@
+@import "../../shared/styles/global-styles.scss";
+
+
+.card-table {
+    margin-bottom: 160px;
+}
+
+
+.mat-row {
+    position: relative;
+    cursor: pointer;
+    .tooltip-image {
+        display: none;
+        position: absolute;
+        padding-top: 14px;
+        z-index: 10000;
+    }
+    &:hover {
+        .tooltip-image {
+            display: block;
+        }
+    }
+    
+}
+

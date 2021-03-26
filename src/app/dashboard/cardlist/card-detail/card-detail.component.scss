@@ -1,0 +1,53 @@
+@import "../../../shared/styles/global-styles.scss";
+
+.left-container,
+.right-container {
+    position: relative;
+    width: 50%;
+    min-height: 500px;
+}
+
+.left-container {
+    img {
+        width: 100%;
+        max-width: 500px;
+    }
+}
+
+.right-container {
+    color: white;
+    .sub-title {
+        font-size: 18px;
+        font-weight: bold;
+    }
+    .prices {
+        margin: 15px 0;
+        .last-updated {
+            font-size: 12px;
+        }
+        .prices-container {
+            margin-top: 15px;
+        }
+    }
+    .abilities {
+        margin: 15px 0;
+        .sub-title {
+            position:relative;
+            .a-icon {
+                margin-right: 8px;
+                position: relative;
+                width: 100px;
+
+                img {
+                    width: 100%;
+                }
+            }
+        }
+        .abilities-detail {
+            margin: 10px 0;
+            .ability-desc {
+                margin: 5px 0;
+            }
+        }
+    }
+}
