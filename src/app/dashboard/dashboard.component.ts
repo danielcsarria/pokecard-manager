@@ -15,21 +15,21 @@ export class DashboardComponent implements OnInit {
   constructor(
     private authService: AuthService,
   ) {
-    console.log(this.recentlyViewd)
+    //console.log(this.recentlyViewd)
 
   }
 
   ngOnInit(): void {
-    this.getRecentlyViewd();
+    //this.getRecentlyViewd();
   }
 
-  getRecentlyViewd() {
-    const recentlyViewd = localStorage.getItem('recentlyViewd')
-    if(recentlyViewd) {
-      console.log(JSON.parse(recentlyViewd))
-      this.recentlyViewd = JSON.parse(recentlyViewd);
-    }
-  }
+  // getRecentlyViewd() {
+  //   const recentlyViewd = localStorage.getItem('recentlyViewd')
+  //   if(recentlyViewd) {
+  //     console.log(JSON.parse(recentlyViewd))
+  //     this.recentlyViewd = JSON.parse(recentlyViewd);
+  //   }
+  // }
 
   onLogout(){
     this.authService.signOut();

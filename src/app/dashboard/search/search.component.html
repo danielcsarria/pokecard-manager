@@ -1,18 +1,34 @@
 <div class="search-component container content-container">
-    <h1>Pokemon Card Search</h1>
+    <div class="search-container">
+        <h1>Pokemon Card Search</h1>
     
-    <form class="example-form">
-        <mat-form-field class="example-full-width">
-          <mat-label>Search for a card</mat-label>
-          <input matInput placeholder="Ex. Charmander">
-        </mat-form-field>
-    </form>
+        <form class="example-form">
+            <mat-form-field class="example-full-width">
+            <mat-label>Search for a card</mat-label>
+            <input matInput placeholder="Ex. Charmander">
+            </mat-form-field>
+        </form>
 
-    <a 
-        mat-flat-button 
-        color="primary"
-        [routerLink]="['set-list']"    
-    >Browse By Set</a>
+        <a 
+            mat-flat-button 
+            color="primary"
+            [routerLink]="['set-list']"    
+        >Browse By Set</a>
+
+    </div>
+
+    <div class="recently-viewd" *ngIf="recentlyViwed">
+        <h2>Recently Viewed</h2>
+        <div class="flex row content-container five">
+            <app-card
+                class="card"
+                *ngFor="let card of recentlyViwed.reverse()"
+                [card]="card"
+            >
+            </app-card>
+        </div>
+    </div>
+    
 
 </div>
 

@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 import { PokemonCard } from '../models/pokemon-card.model';
 
 @Injectable({
@@ -6,7 +7,7 @@ import { PokemonCard } from '../models/pokemon-card.model';
 })
 export class UserService {
 
-  recentlyViewed : PokemonCard[] = [];
+  recentlyViewed = new BehaviorSubject<any>(null)
 
   constructor() { }
 
@@ -14,13 +15,22 @@ export class UserService {
     console.log(pokemonCard)
     const lsRecentlyViewd = localStorage.getItem('recentlyViewd');
     const recentlyViewed = lsRecentlyViewd ? JSON.parse(lsRecentlyViewd) : [];
+    const filtered = new Set();
     recentlyViewed.push(pokemonCard);
-    if(recentlyViewed.length > 5){
-      recentlyViewed.shift();
+
+    const filteredArr = recentlyViewed.filter(el => {
+      const duplicate = filtered.has(el.id);
+      filtered.add(el.id);
+      return !duplicate;
+    });
+
+    if(filteredArr.length > 5){
+      filteredArr.shift();
     }
-    localStorage.setItem('recentlyViewd', JSON.stringify(recentlyViewed));
-    this.recentlyViewed = recentlyViewed;
+    localStorage.setItem('recentlyViewd', JSON.stringify(filteredArr));
+    this.recentlyViewed.next(filteredArr);
   }
+
 
 
 

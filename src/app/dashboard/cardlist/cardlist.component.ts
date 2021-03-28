@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PokemonCard } from 'src/app/shared/models/pokemon-card.model';
 import { ApiService } from 'src/app/shared/services/api.service';
 import {FormControl} from '@angular/forms';
 import {Observable} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
+import {MatSort} from '@angular/material/sort';
 
 @Component({
   selector: 'app-cardlist',
@@ -22,6 +23,9 @@ export class CardlistComponent implements OnInit {
   gridView : string;
 
   displayedColumns: string[] = ['set', 'no', 'name', 'rariry', 'types', 'supertype', 'subtypes', 'price'];
+   
+  @ViewChild(MatSort) sort: MatSort;
+
 
   
   constructor(
@@ -84,18 +88,13 @@ export class CardlistComponent implements OnInit {
   }
 
   onToggleClick(view:any) {
-    if(view == 'grid_on') {
-      this.gridView = 'list'
-      localStorage.setItem('cardView', view)
-    } else {
-      this.gridView = 'grid_on'
-      localStorage.setItem('cardView', view)
-    }
+    localStorage.setItem('cardView', view)
   }
 
   getCardView(viewDefault: string) {
     const cardView = localStorage.getItem('cardView')
     this.gridView =  cardView ? cardView : viewDefault 
   }
+  
 
 }
