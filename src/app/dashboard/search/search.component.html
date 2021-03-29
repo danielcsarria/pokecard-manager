@@ -1,19 +1,15 @@
 <div class="search-component container content-container">
     <div class="search-container">
-        <h1>Pokemon Card Search</h1>
+        <h1>Card Search</h1>
     
         <form class="example-form">
             <mat-form-field class="example-full-width">
             <mat-label>Search for a card</mat-label>
-            <input matInput placeholder="Ex. Charmander">
+            <input matInput placeholder="Ex. Charmander" (keyup.enter)="onSearch($event)">
             </mat-form-field>
         </form>
-
-        <a 
-            mat-flat-button 
-            color="primary"
-            [routerLink]="['set-list']"    
-        >Browse By Set</a>
+        
+        or <a [routerLink]="['set-list']">Browse By Set</a>
 
     </div>
 

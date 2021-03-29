@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { UserService } from 'src/app/shared/services/user.service';
 
 @Component({
@@ -12,6 +13,7 @@ export class SearchComponent implements OnInit {
   
   constructor(
     private userService : UserService,
+    private router : Router
   ) { }
 
   ngOnInit(): void {
@@ -20,6 +22,11 @@ export class SearchComponent implements OnInit {
       console.log("data =>", data)
       this.recentlyViwed = data ? data : localRecentlyViewd;      
     })
+  }
+
+  onSearch(event){
+    console.log(event.target.value)
+    this.router.navigate(['/dashboard', 'card-list'], {queryParams:{cardSearch: event.target.value}})
   }
 
 }

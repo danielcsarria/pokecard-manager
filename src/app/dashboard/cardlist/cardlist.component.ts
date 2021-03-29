@@ -6,6 +6,7 @@ import {FormControl} from '@angular/forms';
 import {Observable} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
 import {MatSort} from '@angular/material/sort';
+import { UserService } from 'src/app/shared/services/user.service';
 
 @Component({
   selector: 'app-cardlist',
@@ -31,7 +32,8 @@ export class CardlistComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private api : ApiService
+    private api : ApiService,
+    private userService: UserService
   ) { }
 
   ngOnInit(): void {
@@ -53,38 +55,24 @@ export class CardlistComponent implements OnInit {
 
   setCardList(params){
     if(params.set) {
-      console.log("this is a set car list")
       this.api.getSetCardList(params.set).subscribe(data => {
-        const cardList = [];
-        const options = [];
         const setInfo = data['data'][0].set;
         this.listTitle = `${setInfo.name}(${setInfo.id})`
-        data['data'].map(card => {          
-          const pokemonCard = new PokemonCard(
-            card.id,
-            card.set.name,
-            card.number,
-            card.name,
-            card.rarity,
-            card.types ? card.types : '',
-            card.supertype,
-            card.subtypes ? card.subtypes : '',
-            card.tcgplayer ? card.tcgplayer.prices : '',
-            card.tcgplayer ? card.tcgplayer.url : '',
-            card.images.small
-          );
-          cardList.push(pokemonCard);
-          options.push(card.name)
-        })
-        // console.log(cardList)
-        this.cardList = cardList;
-        this.options = options;
+        this.setCards(data)
+      })
+    }
+    if(params.cardSearch) {
+      this.api.getCardSearch(params.cardSearch).subscribe(data => {
+        this.listTitle = `Card Search: ${params.cardSearch}`
+        this.setCards(data);
       })
     }
   }
 
-  onRowClick(row) {
-    this.router.navigate(['/dashboard', 'card'], {queryParams: {id: row.id}});
+  onRowClick(card: PokemonCard) {
+    this.userService.addToRecentlyViewd(card)
+    this.router.navigate(['/dashboard', 'card'], {queryParams: {id: card.id}});
+    
   }
 
   onToggleClick(view:any) {
@@ -94,6 +82,31 @@ export class CardlistComponent implements OnInit {
   getCardView(viewDefault: string) {
     const cardView = localStorage.getItem('cardView')
     this.gridView =  cardView ? cardView : viewDefault 
+  }
+
+  setCards(data) {
+    const cardList = [];
+    const options = [];
+    data['data'].map(card => {          
+      const pokemonCard = new PokemonCard(
+        card.id,
+        card.set.name,
+        card.set.id,
+        card.number,
+        card.name,
+        card.rarity,
+        card.types ? card.types : '',
+        card.supertype,
+        card.subtypes ? card.subtypes : '',
+        card.tcgplayer ? card.tcgplayer.prices : '',
+        card.tcgplayer ? card.tcgplayer.url : '',
+        card.images.small
+      );
+      cardList.push(pokemonCard);
+      options.push(card.name)
+    })
+    this.cardList = cardList;
+    this.options = options;
   }
   
 

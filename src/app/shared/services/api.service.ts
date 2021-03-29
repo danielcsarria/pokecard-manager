@@ -22,6 +22,10 @@ export class ApiService {
     return this.http.get(this.baseURL + 'cards?q=set.id:' + setID)
   }
 
+  public getCardSearch(name:string) {
+    return this.http.get(this.baseURL + 'cards?q=name:' + name +"*")
+  }
+
   public getCard(cardID: string) {
     return this.http.get(this.baseURL + 'cards/' + cardID)
   }

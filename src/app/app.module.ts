@@ -57,7 +57,7 @@ import { CardDetailComponent } from './dashboard/cardlist/card-detail/card-detai
     FilterPipe,
     CardlistComponent,
     CardComponent,
-    CardDetailComponent
+    CardDetailComponent,
   ],
   imports: [
     BrowserModule,
