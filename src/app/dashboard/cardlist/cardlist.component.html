@@ -1,5 +1,8 @@
 <div class="container wide">
     <div class="set-container">
+        <div class="loader-container " [ngClass]="{'loading' : loading}">
+            <div class="loader"></div>
+        </div>
         <div class="header flex space-between row center">
             <h1>{{listTitle}}</h1>
             <div class="buttons-container">
@@ -43,15 +46,39 @@
     
                 <table mat-table [dataSource]="cardList | filter:filteredValue" class="mat-elevation-z8 card-table">
                     <!-- Position Column -->
+                    <ng-container matColumnDef="btns">
+                        <th mat-header-cell *matHeaderCellDef></th>
+                        <td mat-cell *matCellDef="let element">
+                            <div class="btn-container">
+                                <button 
+                                    mat-raised-button
+                                    *ngIf="element.inCollection == false"
+                                    (click)="onAddToCollection(element)" 
+                                    class="add"
+                                >
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm7 14h-5v5h-4v-5h-5v-4h5v-5h4v5h5v4z"/></svg>
+                                </button>
+                                <button 
+                                    mat-raised-button
+                                    *ngIf="element.inCollection === true"
+                                    (click)="onAddToCollection(element)" 
+                                    color="warn"
+                                >
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm7 14h-14v-4h14v4z"/></svg>
+                                </button>
+                                
+                            </div>
+                        </td>
+                    </ng-container>
                     <ng-container matColumnDef="set">
                         <th mat-header-cell *matHeaderCellDef>Set</th>
                         <td mat-cell *matCellDef="let element">
                             <a 
-                                [routerLink]="['/dashboard', 'card-list']"
-                                [queryParams]="{id : element.setID}"
-                                mat-button
+                                class="link"
+                                (click)="onBaseClick(element.setID)"
+                                
                             >
-                                {{element.set}}
+                                {{element.set.name}}
                             </a>
                             <div class="tooltip-image">
                                 <img src="{{element.image}}" alt="">
@@ -66,7 +93,11 @@
     
                     <ng-container matColumnDef="name">
                         <th mat-header-cell *matHeaderCellDef>Name</th>
-                        <td mat-cell *matCellDef="let element">{{element.name}}</td>
+                        <td mat-cell *matCellDef="let element">
+                            <a (click)="onCardClick(element)" class="link">
+                                {{element.name}}
+                            </a>
+                        </td>
                     </ng-container>
     
                     <ng-container matColumnDef="rariry">
@@ -100,9 +131,10 @@
                     <ng-container matColumnDef="price">
                         <th mat-header-cell *matHeaderCellDef>Price</th>
                         <td mat-cell *matCellDef="let element">
-                            <a href="{{element.priceLink}}" target="_blank">
-                                <div *ngIf="element.prices.holofoil">{{element.prices.holofoil.market | currency }}</div>
-                                <div *ngIf="element.prices.normal" >{{element.prices.normal.market | currency }}</div>
+                            <a class="link flex column" href="{{element.priceLink}}" target="_blank">
+                                <span *ngIf="element.prices.holofoil">{{element.prices.holofoil.market | currency }}</span>
+                                <span *ngIf="element.prices.holofoil">{{element.prices.holofoil.market | currency }}</span>
+                                <span *ngIf="element.prices.normal" >{{element.prices.normal.market | currency }}</span>
                             </a>
                         </td>
                     </ng-container>

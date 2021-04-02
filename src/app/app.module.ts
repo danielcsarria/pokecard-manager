@@ -38,6 +38,7 @@ import { FilterPipe } from './shared/pipes/filter.pipe';
 import { CardlistComponent } from './dashboard/cardlist/cardlist.component';
 import { CardComponent } from './dashboard/cardlist/card/card.component';
 import { CardDetailComponent } from './dashboard/cardlist/card-detail/card-detail.component';
+import { CollectionComponent } from './dashboard/collection/collection.component';
 
 
 @NgModule({
@@ -58,6 +59,7 @@ import { CardDetailComponent } from './dashboard/cardlist/card-detail/card-detai
     CardlistComponent,
     CardComponent,
     CardDetailComponent,
+    CollectionComponent,
   ],
   imports: [
     BrowserModule,

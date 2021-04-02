@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PokemonCard } from 'src/app/shared/models/pokemon-card.model';
 import { ApiService } from 'src/app/shared/services/api.service';
@@ -7,6 +7,7 @@ import {Observable} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
 import {MatSort} from '@angular/material/sort';
 import { UserService } from 'src/app/shared/services/user.service';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   selector: 'app-cardlist',
@@ -16,14 +17,14 @@ import { UserService } from 'src/app/shared/services/user.service';
 export class CardlistComponent implements OnInit {
 
   myControl = new FormControl();
-  cardList : PokemonCard[];
+  cardList : PokemonCard[] = [];
   listTitle : string;
   options: string[] = [];
   filteredOptions: Observable<string[]>;
   filteredValue : string;
   gridView : string;
-
-  displayedColumns: string[] = ['set', 'no', 'name', 'rariry', 'types', 'supertype', 'subtypes', 'price'];
+  loading: boolean = true;
+  displayedColumns: string[] = ['btns', 'set', 'no', 'name', 'rariry', 'types', 'supertype', 'subtypes', 'price'];
    
   @ViewChild(MatSort) sort: MatSort;
 
@@ -37,9 +38,12 @@ export class CardlistComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    const params = this.route.snapshot.queryParams;
+    this.setCardList(this.route.snapshot.queryParams)
+    this.route.queryParams.subscribe(params => {
+      this.setCardList(params)
+    })
     this.getCardView('grid_on');
-    this.setCardList(params);
+    
     this.filteredOptions = this.myControl.valueChanges
       .pipe(
         startWith(''),
@@ -57,22 +61,44 @@ export class CardlistComponent implements OnInit {
     if(params.set) {
       this.api.getSetCardList(params.set).subscribe(data => {
         const setInfo = data['data'][0].set;
-        this.listTitle = `${setInfo.name}(${setInfo.id})`
-        this.setCards(data)
+        this.listTitle = `${setInfo.name}(${setInfo.id})`;
+        this.setCards(data);
+        this.loading = false;
       })
     }
     if(params.cardSearch) {
       this.api.getCardSearch(params.cardSearch).subscribe(data => {
-        this.listTitle = `Card Search: ${params.cardSearch}`
+        this.listTitle = `Card Search: ${params.cardSearch}`;
         this.setCards(data);
+        this.loading = false;
       })
+    }
+    if(params.myCollection) {
+      const data = this.userService.getCollection();
+      const setID = params.setID;
+      const collection = [];
+      data.map(d => {
+        if(d.setID == setID) {
+          collection.push(d);
+          this.options.push(d.name);
+        }
+      })
+      const setInfo = collection[0].set;
+      this.listTitle = `My ${setInfo.name} Collection ( ${collection.length} / ${setInfo.printedTotal} )`;
+      this.cardList = collection;
+      this.loading = false;
     }
   }
 
-  onRowClick(card: PokemonCard) {
-    this.userService.addToRecentlyViewd(card)
-    this.router.navigate(['/dashboard', 'card'], {queryParams: {id: card.id}});
-    
+  onCardClick(card: PokemonCard) {
+    this.userService.goToDetail(card);
+  }
+
+  onBaseClick(id:string){
+    if(this.route.snapshot.queryParams.set != id) {
+      this.loading = true;
+    }
+    this.router.navigate(['/dashboard', 'card-list'], {queryParams:{set:id}})
   }
 
   onToggleClick(view:any) {
@@ -87,10 +113,18 @@ export class CardlistComponent implements OnInit {
   setCards(data) {
     const cardList = [];
     const options = [];
-    data['data'].map(card => {          
+    const collection = this.userService.getCollection();
+    const dataSet = data['data'] ? data['data'] : data;
+    dataSet.map(card => {
+      var inCollection = false
+      collection.map(col => {
+        if(col.id === card.id) {
+          inCollection = true;
+        }
+      })          
       const pokemonCard = new PokemonCard(
         card.id,
-        card.set.name,
+        card.set,
         card.set.id,
         card.number,
         card.name,
@@ -100,13 +134,18 @@ export class CardlistComponent implements OnInit {
         card.subtypes ? card.subtypes : '',
         card.tcgplayer ? card.tcgplayer.prices : '',
         card.tcgplayer ? card.tcgplayer.url : '',
-        card.images.small
+        card.images.small ? card.images.small : card.image,
+        inCollection
       );
       cardList.push(pokemonCard);
       options.push(card.name)
     })
     this.cardList = cardList;
     this.options = options;
+  }
+
+  onAddToCollection(card:PokemonCard) {
+    this.userService.addToCollection(card);
   }
   
 

@@ -11,6 +11,7 @@ import { SearchComponent } from 'src/app/dashboard/search/search.component';
 import { SetlistComponent } from 'src/app/dashboard/setlist/setlist.component';
 import { CardlistComponent } from 'src/app/dashboard/cardlist/cardlist.component';
 import { CardDetailComponent } from 'src/app/dashboard/cardlist/card-detail/card-detail.component';
+import { CollectionComponent } from 'src/app/dashboard/collection/collection.component';
 
 const routes: Routes = [
   { path: 'login', component: AuthComponent, children: [
@@ -23,7 +24,8 @@ const routes: Routes = [
     {path: '', component: SearchComponent, pathMatch: 'full'},
     {path: 'set-list', component: SetlistComponent, pathMatch: 'full'},
     {path: 'card-list', component: CardlistComponent, pathMatch: 'full'},
-    {path: 'card', component: CardDetailComponent, pathMatch: 'full'}
+    {path: 'card', component: CardDetailComponent, pathMatch: 'full'},
+    {path: 'collection', component: CollectionComponent, pathMatch: 'full'}
   ]}
   
 ];

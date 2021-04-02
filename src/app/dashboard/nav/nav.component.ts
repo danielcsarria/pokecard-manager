@@ -27,7 +27,7 @@ export class NavComponent implements OnInit {
     this.authService.userInfo.subscribe(
       (user: any) => {
         const userInfo: User = {
-          uid: user.uid,
+          uid: (user.uid) ? user.uid : '',
           email: user.email,
           displayName: user.displayName,
           photoURL: user.photoURL,

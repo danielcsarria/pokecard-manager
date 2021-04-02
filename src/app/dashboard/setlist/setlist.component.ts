@@ -16,6 +16,7 @@ export class SetlistComponent implements OnInit {
   options: string[] = [];
   filteredOptions: Observable<string[]>;
   filteredValue : string;
+  loading: boolean = true;
 
   
   constructor(
@@ -37,21 +38,15 @@ export class SetlistComponent implements OnInit {
   }
 
   getSetList() {
-    const localSetList = JSON.parse(localStorage.getItem('setList'))
-    if(localSetList) {
-      this.setList = localSetList;
-      this.setOptions(localSetList);     
-    } else {
-      this.apiService.getSetList().subscribe((data: any[]) => {
-        let setList = [];
-        data['data'].map((set) => {
-          setList.push(new CardSet(set.name, set.id, set.series, set.releaseDate, set.images.logo))  
-        })
-        this.setList = setList;
-        this.setOptions(setList);
-        localStorage.setItem('setList', JSON.stringify(setList));
+    this.apiService.getSetList().subscribe((data: any[]) => {
+      let setList = [];
+      data['data'].map((set) => {
+        setList.push(new CardSet(set.name, set.id, set.series, set.releaseDate, set.images.logo))  
       })
-    }
+      this.setList = setList;
+      this.setOptions(setList);
+      this.loading = false;
+    })
     
   }
 

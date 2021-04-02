@@ -1,83 +1,253 @@
-<div class="container wide content-container">
+<div class="container wide content-container" *ngIf="cardDetail">
     
-    <div class="flex row">
+    <div class="flex row center">
         <div class="left-container">
             <img src="{{cardDetail.images.large}}" alt="{{cardDetail.name}}">
-        </div>
-        <div class="right-container">
-            <div class="card-title">
-                <h1><strong>{{cardDetail.name}}</strong></h1>
-                <h2>{{cardDetail.supertype}} - {{cardDetail.subtypes.join(", ")}}</h2>
-            </div>
-            <mat-divider></mat-divider>
-            <div class="prices">
-                <h3>Prices</h3>
-                <a mat-flat-button href="{{cardDetail.tcgplayer.url}}" target="_blank">Buy Now From TCGplayer</a>
-                <div class="last-updated">Last Updated: {{cardDetail.tcgplayer.updatedAt}}</div>
-                <div class="prices-container">
-
-                    <div class="price-holo flex row space-between" *ngIf="cardDetail.tcgplayer.prices.holofoil">
-                        <div class="market">
-                            <div class="sub-title">Holofoil Market</div>
-                            <div class="price-amount">{{cardDetail.tcgplayer.prices.holofoil.market | currency}}</div>
-                        </div>
-                        <div class="low">
-                            <div class="sub-title">Holofoil Low</div>
-                            <div class="price-amount">{{cardDetail.tcgplayer.prices.holofoil.low | currency}}</div>
-                        </div>
-                        <div class="mid">
-                            <div class="sub-title">Holofoil mid</div>
-                            <div class="price-amount">{{cardDetail.tcgplayer.prices.holofoil.mid | currency}}</div>
-                        </div>
-                        <div class="high">
-                            <div class="sub-title">Holofoil high</div>
-                            <div class="price-amount">{{cardDetail.tcgplayer.prices.holofoil.high | currency}}</div>
-                        </div>
-                    </div>
-
-                    <div class="price-holo flex row space-between" *ngIf="cardDetail.tcgplayer.prices.normal">
-                        <div class="market">
-                            <div class="sub-title">Normal Market</div>
-                            <div class="price-amount">{{cardDetail.tcgplayer.prices.normal.market | currency}}</div>
-                        </div>
-                        <div class="low">
-                            <div class="sub-title">Normal Low</div>
-                            <div class="price-amount">{{cardDetail.tcgplayer.prices.normal.low | currency}}</div>
-                        </div>
-                        <div class="mid">
-                            <div class="sub-title">Normal mid</div>
-                            <div class="price-amount">{{cardDetail.tcgplayer.prices.normal.mid | currency}}</div>
-                        </div>
-                        <div class="high">
-                            <div class="sub-title">Normal high</div>
-                            <div class="price-amount">{{cardDetail.tcgplayer.prices.normal.high | currency}}</div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-            <mat-divider></mat-divider>
-            <div class="card-details">
-                <div class="abilities" *ngIf="cardDetail.abilities">
-                    <h3>Abilities</h3>
-                    <div class="abilities-container">
-                        <div class="abilities-detail" *ngFor="let ab of cardDetail.abilities">
-                            <div class="sub-title flex row center">
-                                <div class="a-icon">
-                                    <img 
-                                        src="../../../../assets/images/{{(ab.type === 'Ability') ? 'ability' : 'pokepower'}}.png" 
-                                        alt="{{ab.type}}">
-                                </div>
-                                {{ab.name}} 
-                            </div>
-                            <div class="ability-desc">
-                                {{ab.text}}
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <div class="btn-container">
+                <button 
+                    mat-raised-button
+                    *ngIf="inCollection === false"
+                    (click)="onAddToCollection()" 
+                    class="add"
+                >
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm7 14h-5v5h-4v-5h-5v-4h5v-5h4v5h5v4z"/></svg>
+                </button>
+                <button 
+                    mat-raised-button
+                    *ngIf="inCollection === true"
+                    (click)="onAddToCollection()" 
+                    color="warn"
+                >
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm7 14h-14v-4h14v4z"/></svg>
+                </button>
                 
             </div>
+        </div>
+
+        <div class="right-container">
+            <div class="right-con">
+                <div class="card-title">
+                    <h1>
+                        <strong>{{cardDetail.name}}</strong>
+                    </h1>
+                    <h2>{{cardDetail.supertype}} - {{cardDetail.subtypes.join(", ")}}</h2>
+                    {{cardDetail.number}}/{{cardDetail.set.total}}
+                    <div class="hp">
+                        HP: {{cardDetail.hp}}
+                        <div class="flex row-j-center type">
+                            <div 
+                                class="a-icon cost"
+                                *ngFor="let type of cardDetail.types "    
+                            >
+                                <img 
+                                    class="icon-large"
+                                    src="../../../../assets/images/{{type}}.png" 
+                                    alt="{{type}}">
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+                <mat-divider></mat-divider>
+                <div class="prices">
+                    <h3>Prices</h3>
+                    <a class="link" href="{{cardDetail.tcgplayer.url}}" target="_blank">Buy Now From TCGplayer</a>
+                    <div class="last-updated">Last Updated: {{cardDetail.tcgplayer.updatedAt}}</div>
+                    <div class="prices-container">
+    
+                        <div class="pricing flex row space-between" *ngIf="cardDetail.tcgplayer.prices.holofoil">
+                            <div class="market">
+                                <div class="sub-title">Holofoil Market</div>
+                                <div class="price-amount">{{cardDetail.tcgplayer.prices.holofoil.market | currency}}</div>
+                            </div>
+                            <div class="low">
+                                <div class="sub-title">Holofoil Low</div>
+                                <div class="price-amount">{{cardDetail.tcgplayer.prices.holofoil.low | currency}}</div>
+                            </div>
+                            <div class="mid">
+                                <div class="sub-title">Holofoil mid</div>
+                                <div class="price-amount">{{cardDetail.tcgplayer.prices.holofoil.mid | currency}}</div>
+                            </div>
+                            <div class="high">
+                                <div class="sub-title">Holofoil high</div>
+                                <div class="price-amount">{{cardDetail.tcgplayer.prices.holofoil.high | currency}}</div>
+                            </div>
+                        </div>
+    
+                        <div class="pricing flex row space-between" *ngIf="cardDetail.tcgplayer.prices.reverseHolofoil">
+                            <div class="market">
+                                <div class="sub-title">Reverse Holofoil Market</div>
+                                <div class="price-amount">{{cardDetail.tcgplayer.prices.reverseHolofoil.market | currency}}</div>
+                            </div>
+                            <div class="low">
+                                <div class="sub-title">Reverse Holofoil Low</div>
+                                <div class="price-amount">{{cardDetail.tcgplayer.prices.reverseHolofoil.low | currency}}</div>
+                            </div>
+                            <div class="mid">
+                                <div class="sub-title">Reverse Holofoil mid</div>
+                                <div class="price-amount">{{cardDetail.tcgplayer.prices.reverseHolofoil.mid | currency}}</div>
+                            </div>
+                            <div class="high">
+                                <div class="sub-title">Reverse Holofoil high</div>
+                                <div class="price-amount">{{cardDetail.tcgplayer.prices.reverseHolofoil.high | currency}}</div>
+                            </div>
+                        </div>
+    
+                        <div class="pricing flex row space-between" *ngIf="cardDetail.tcgplayer.prices.normal">
+                            <div class="market">
+                                <div class="sub-title">Normal Market</div>
+                                <div class="price-amount">{{cardDetail.tcgplayer.prices.normal.market | currency}}</div>
+                            </div>
+                            <div class="low">
+                                <div class="sub-title">Normal Low</div>
+                                <div class="price-amount">{{cardDetail.tcgplayer.prices.normal.low | currency}}</div>
+                            </div>
+                            <div class="mid">
+                                <div class="sub-title">Normal mid</div>
+                                <div class="price-amount">{{cardDetail.tcgplayer.prices.normal.mid | currency}}</div>
+                            </div>
+                            <div class="high">
+                                <div class="sub-title">Normal high</div>
+                                <div class="price-amount">{{cardDetail.tcgplayer.prices.normal.high | currency}}</div>
+                            </div>
+                        </div>
+    
+                    </div>
+                </div>
+                <mat-divider></mat-divider>
+                <div class="card-details">
+                    <div class="abilities" *ngIf="cardDetail.abilities">
+                        <h3>Abilities</h3>
+                        <div class="abilities-container">
+                            <div class="abilities-detail" *ngFor="let ab of cardDetail.abilities">
+                                <div class="sub-title flex row center">
+                                    <div class="a-icon">
+                                        <img 
+                                            src="../../../../assets/images/{{(ab.type === 'Ability') ? 'ability' : 'pokepower'}}.png" 
+                                            alt="{{ab.type}}">
+                                    </div>
+                                    {{ab.name}} 
+                                </div>
+                                <div class="desc">
+                                    {{ab.text}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <mat-divider></mat-divider>
+                    <div class="attacks" *ngIf="cardDetail.attacks">
+                        <h3>Attacks</h3>
+                        <div class="details-container">
+                            <div class="detail" *ngFor="let attack of cardDetail.attacks">
+                                <div class="sub-title flex row center">
+                                    <div 
+                                        class="a-icon cost"
+                                        *ngFor="let cost of attack.cost "    
+                                    >
+                                        <img 
+                                            class="icon-large"
+                                            src="../../../../assets/images/{{cost}}.png" 
+                                            alt="{{cost}}">
+                                    </div>
+                                    {{attack.name}} <span>{{attack.damage}}</span>
+                                </div>
+                                <div class="desc"
+                                    *ngIf="attack.text"
+                                >
+                                    {{attack.text}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="attacks" *ngIf="cardDetail.rules">
+                        <h3>Rules</h3>
+                        <div class="details-container">
+                            <div class="detail" *ngFor="let rule of cardDetail.rules">
+                                <div class="desc">
+                                    {{rule}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="final-details flex row">
+                        <div class="detail">
+                            <h3>Weakness</h3>
+                            <div class="flex row j-center">
+                                <div 
+                                    class="a-icon cost"
+                                    *ngFor="let w of cardDetail.weaknesses "    
+                                >
+                                    <img 
+                                        class="icon-large"
+                                        src="../../../../assets/images/{{w.type}}.png" 
+                                        alt="{{w.type}}">{{w.value}}
+                                </div>
+                            </div>
+                            
+                        </div>
+                        <div class="detail">
+                            <h3>Resistance</h3>
+                            <div class="flex row j-center">
+                                <div 
+                                    class="a-icon cost"
+                                    *ngFor="let r of cardDetail.resistances "    
+                                >
+                                    <img 
+                                        class="icon-large"
+                                        src="../../../../assets/images/{{r.type}}.png" 
+                                        alt="{{r.type}}">{{r.value}}
+                                </div>
+                            </div>
+                            
+                        </div>
+                        <div class="detail">
+                            <h3>Retreat Cost</h3>
+                            <div class="flex row j-center">
+                                <div 
+                                    class="a-icon cost"
+                                    *ngFor="let cost of cardDetail.retreatCost "    
+                                >
+                                    <img 
+                                        class="icon-large"
+                                        src="../../../../assets/images/{{cost}}.png" 
+                                        alt="{{cost}}">
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    <mat-divider></mat-divider>
+                    <div class="final-details flex row">
+                        <div class="detail">
+                            <h3>Artist</h3>
+                            <div class="flex row j-center">
+                                {{cardDetail.artist}}
+                            </div>
+                        </div>
+                        <div class="detail">
+                            <h3>Rarity</h3>
+                            <div class="flex row j-center">
+                                {{cardDetail.rarity}}
+                            </div>
+                        </div>
+                        <div class="detail">
+                            <h3>Set</h3>
+                            <div class="flex row j-center">
+                                <a 
+                                    class="link"
+                                    [routerLink]="['/dashboard', 'card-list']"
+                                    [queryParams]="{set: cardDetail.set.id}"
+                                >
+                                    {{cardDetail.set.name}}
+                                </a>
+                                
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>    
+            </div>
+            
         </div>
 
     </div>

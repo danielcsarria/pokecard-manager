@@ -18,7 +18,6 @@ export class SetCardComponent implements OnInit {
   }
 
   onSetClick(setId: string) {
-    console.log(setId)
     this.route.navigate(['dashboard','card-list'], {queryParams: {set: setId}})
   }
 

@@ -1,4 +1,7 @@
 <div class="container wide">
+    <div class="loader-container " [ngClass]="{'loading' : loading}">
+        <div class="loader"></div>
+    </div>
     <div class="set-container">
         <h1>Sets</h1>
         <hr>
@@ -13,7 +16,7 @@
                             [formControl]="myControl"
                             [matAutocomplete]="auto"
                             [(ngModel)]="filteredValue"
-                            >
+                        >
                     <mat-autocomplete #auto="matAutocomplete">
                     <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
                         {{option}}

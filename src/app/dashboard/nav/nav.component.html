@@ -29,10 +29,29 @@
                 </div>
             </div>
             <mat-menu #userMenu="matMenu">
-            <button mat-menu-item (click)="onLogout()">
-                <mat-icon>exit_to_app</mat-icon>
-                <span>Logout</span>
-            </button>
+                <a mat-menu-item
+                    [routerLink]="['/dashboard']"
+                >
+                    <mat-icon>search</mat-icon>
+                    <span>Card Search</span>
+                </a>
+                <a mat-menu-item
+                    [routerLink]="['/dashboard', 'set-list']"
+                >
+                    <mat-icon>grid_on</mat-icon>
+                    <span>Sets</span>
+                </a>
+                <a mat-menu-item
+                    [routerLink]="['/dashboard', 'collection']"
+                >
+                    <mat-icon>import_contacts</mat-icon>
+                    <span>My Collection</span>
+                </a>
+                <mat-divider></mat-divider>
+                <button mat-menu-item (click)="onLogout()">
+                    <mat-icon>exit_to_app</mat-icon>
+                    <span>Logout</span>
+                </button>
             </mat-menu>
         </div>
          

@@ -1,0 +1,19 @@
+<div class="container wide">
+    <div class="set-container">
+        <h1>My Collection</h1>
+        <hr>
+        <div class="flex row content-container five">
+            <mat-card 
+                class="set-card card"
+                *ngFor="let set of collectionSet"
+                (click)="onCollectionSetClick(set.id)"
+            >
+                <mat-card-header>
+                <mat-card-title>{{set.name}}</mat-card-title>
+                <mat-card-subtitle>{{set.series}} - {{set.releaseDate}}</mat-card-subtitle>
+                </mat-card-header>
+                <div class="img-container" style="background-image: url({{set.images.logo}})"></div>
+            </mat-card>
+        </div>
+    </div>
+</div>

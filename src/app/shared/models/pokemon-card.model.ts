@@ -13,6 +13,7 @@ export class PokemonCard {
       public prices: any,
       public priceLink: any,
       public image: any,
+      public inCollection : boolean = false,
     ) {}
 
   }

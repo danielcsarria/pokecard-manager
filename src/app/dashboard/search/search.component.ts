@@ -19,7 +19,6 @@ export class SearchComponent implements OnInit {
   ngOnInit(): void {
     const localRecentlyViewd = JSON.parse(localStorage.getItem('recentlyViewd'))
     this.userService.recentlyViewed.subscribe(data => {
-      console.log("data =>", data)
       this.recentlyViwed = data ? data : localRecentlyViewd;      
     })
   }
