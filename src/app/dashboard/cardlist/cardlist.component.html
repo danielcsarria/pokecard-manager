@@ -53,7 +53,7 @@
                                 <button 
                                     mat-raised-button
                                     *ngIf="element.inCollection == false"
-                                    (click)="onAddToCollection(element)" 
+                                    (click)="onAdd(element)" 
                                     class="add"
                                 >
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm7 14h-5v5h-4v-5h-5v-4h5v-5h4v5h5v4z"/></svg>
@@ -61,7 +61,7 @@
                                 <button 
                                     mat-raised-button
                                     *ngIf="element.inCollection === true"
-                                    (click)="onAddToCollection(element)" 
+                                    (click)="onRemove(element)" 
                                     color="warn"
                                 >
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm7 14h-14v-4h14v4z"/></svg>
@@ -100,7 +100,7 @@
                         </td>
                     </ng-container>
     
-                    <ng-container matColumnDef="rariry">
+                    <ng-container matColumnDef="rarity">
                         <th mat-header-cell *matHeaderCellDef>Rarity</th>
                         <td mat-cell *matCellDef="let element">{{element.rarity}}</td>
                     </ng-container>
@@ -133,7 +133,7 @@
                         <td mat-cell *matCellDef="let element">
                             <a class="link flex column" href="{{element.priceLink}}" target="_blank">
                                 <span *ngIf="element.prices.holofoil">{{element.prices.holofoil.market | currency }}</span>
-                                <span *ngIf="element.prices.holofoil">{{element.prices.holofoil.market | currency }}</span>
+                                <span *ngIf="element.prices.reverseHolofoil">{{element.prices.reverseHolofoil.market | currency }}</span>
                                 <span *ngIf="element.prices.normal" >{{element.prices.normal.market | currency }}</span>
                             </a>
                         </td>
@@ -142,6 +142,56 @@
                     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                     <tr mat-row *matRowDef="let row; columns: displayedColumns;" ></tr> 
                 </table>
+
+                <table class="mytable">
+
+                    <tr>
+                        <th *ngFor="let column of displayedColumns">{{column}}</th>
+                    </tr>
+                    <tr *ngFor="let card of cardList">
+                        <td>
+                            <div class="btn-container">
+                                <button 
+                                    mat-raised-button
+                                    *ngIf="card.inCollection == false"
+                                    (click)="onAdd(card)" 
+                                    class="add"
+                                >
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm7 14h-5v5h-4v-5h-5v-4h5v-5h4v5h5v4z"/></svg>
+                                </button>
+                                <button 
+                                    mat-raised-button
+                                    *ngIf="card.inCollection === true"
+                                    (click)="onRemove(card)" 
+                                    color="warn"
+                                >
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm7 14h-14v-4h14v4z"/></svg>
+                                </button>
+                                
+                            </div>
+                        </td>
+                        <td>{{card.set.name}}</td>
+                        <td>{{card.number}}</td>
+                        <td>{{card.name}}</td>
+                        <td>{{card.rarity}}</td>
+                        <td>
+                            <div class="flex row j-center">
+                                <div class="type" *ngFor="let e of card.types">
+                                    <img src="../../../assets/images/{{e}}.png" alt="">
+                                </div>
+                            </div>
+                        </td>
+                        <td>{{card.superType}}</td>
+                        <td>{{card.subTypes[0]}}</td>
+                        <td><a class="link flex column" href="{{card.priceLink}}" target="_blank">
+                            <span *ngIf="card.prices.holofoil">{{card.prices.holofoil.market | currency }}</span>
+                            <span *ngIf="card.prices.reverseHolofoil">{{card.prices.reverseHolofoil.market | currency }}</span>
+                            <span *ngIf="card.prices.normal" >{{card.prices.normal.market | currency }}</span>
+                        </a></td>
+                    </tr>
+
+                </table>
+
             </div>
         </div>
         <div class="no-results" *ngIf="cardList.length == 0">

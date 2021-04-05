@@ -17,7 +17,6 @@ export class UserService {
   addToRecentlyViewd(pokemonCard: PokemonCard) {
     const lsRecentlyViewd = localStorage.getItem('recentlyViewd');
     const recentlyViewed = lsRecentlyViewd ? JSON.parse(lsRecentlyViewd) : [];
-    const collection = this.getCollection();
     const filtered = new Set();
     recentlyViewed.push(pokemonCard);
 
@@ -45,7 +44,6 @@ export class UserService {
   }
 
   addToCollection(card: PokemonCard){
-    
     const lsCollection = localStorage.getItem('collection');
     const collection = lsCollection ? JSON.parse(lsCollection) : [];
     const filtered = new Set();
@@ -62,9 +60,23 @@ export class UserService {
     localStorage.setItem('collection', JSON.stringify(filteredCollection));
   }
 
+  removeFromCollection(card:PokemonCard) {
+    const collection = this.getCollection();
+    collection.map((col, index) => {
+      if(col.id === card.id){
+        console.log("DELETE ", col.name + " in index ", index);
+        collection.splice(index, 1)
+      }
+    })
+    // localStorage.setItem('collection', JSON.stringify(collection))
+    // console.log(collection)
+  }
+
   getCollection() {
     return localStorage.getItem('collection') ? JSON.parse(localStorage.getItem('collection')) : [];
   }
+
+
 
 
 

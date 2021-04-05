@@ -1,13 +1,13 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PokemonCard } from 'src/app/shared/models/pokemon-card.model';
 import { ApiService } from 'src/app/shared/services/api.service';
 import {FormControl} from '@angular/forms';
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
 import {MatSort} from '@angular/material/sort';
 import { UserService } from 'src/app/shared/services/user.service';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-cardlist',
@@ -17,15 +17,17 @@ import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 export class CardlistComponent implements OnInit {
 
   myControl = new FormControl();
-  cardList : PokemonCard[] = [];
+  cardList = [];
   listTitle : string;
   options: string[] = [];
   filteredOptions: Observable<string[]>;
   filteredValue : string;
   gridView : string;
   loading: boolean = true;
-  displayedColumns: string[] = ['btns', 'set', 'no', 'name', 'rariry', 'types', 'supertype', 'subtypes', 'price'];
-   
+  displayedColumns: string[] = ['btns', 'set', 'no', 'name', 'rarity', 'types', 'supertype', 'subtypes', 'price'];
+  
+  dataSource = new MatTableDataSource<PokemonCard[]>();
+
   @ViewChild(MatSort) sort: MatSort;
 
 
@@ -34,7 +36,8 @@ export class CardlistComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private api : ApiService,
-    private userService: UserService
+    private userService: UserService,
+    private changeDetectorRefs: ChangeDetectorRef
   ) { }
 
   ngOnInit(): void {
@@ -43,7 +46,6 @@ export class CardlistComponent implements OnInit {
       this.setCardList(params)
     })
     this.getCardView('grid_on');
-    
     this.filteredOptions = this.myControl.valueChanges
       .pipe(
         startWith(''),
@@ -144,8 +146,24 @@ export class CardlistComponent implements OnInit {
     this.options = options;
   }
 
-  onAddToCollection(card:PokemonCard) {
+  onAdd(card:PokemonCard) {
     this.userService.addToCollection(card);
+  }
+
+  onRemove(card:PokemonCard) {
+    //this.userService.removeFromCollection(card);
+    // this.cardList= this.cardList;
+    this.cardList.forEach((cl, index) => {
+      if(cl.id === card.id) {
+        this.cardList.splice(index, 1);
+      }
+    });
+
+    // this.changeDetectorRefs.detectChanges();
+    this.dataSource.data = this.dataSource.data;
+    
+    console.log(this.cardList);
+    // this.cardList = newCardList;
   }
   
 
