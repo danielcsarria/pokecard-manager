@@ -2,7 +2,7 @@ import { EventEmitter, Injectable, NgZone, Output} from '@angular/core';
 import { User } from "../models/user.model";
 import  firebase  from 'firebase/app';
 import { AngularFireAuth } from "@angular/fire/auth";
-import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
+import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { Router } from "@angular/router";
 import { BehaviorSubject } from 'rxjs';
 
@@ -12,8 +12,10 @@ import { BehaviorSubject } from 'rxjs';
 export class AuthService {
 
   userData: User;
+  
   authMessage = new EventEmitter<string>();
   userInfo = new BehaviorSubject<any>(null);
+  userMeta = new BehaviorSubject<any>(null);
   
   constructor(
     public afs: AngularFirestore,   // Inject Firestore service
@@ -96,6 +98,13 @@ export class AuthService {
 
   setUserData(user) {
     const userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${user.uid}`);
+    const userMeta = this.afs.collection('userInfo', ref => ref.where('uid', '==', user.uid)).valueChanges();
+    let thisMeta;
+    userMeta.subscribe(meta => {
+      const data = meta[0]
+      console.log("HERE: ", data)
+    })
+
     const userData: User = {
       uid: user.uid,
       email: user.email,
@@ -103,6 +112,9 @@ export class AuthService {
       photoURL: user.photoURL,
       emailVerified: user.emailVerified
     }
+
+    //console.log("meta =>", thisMeta)
+    this.userMeta.next(thisMeta);
     this.userInfo.next(userData)
     return userRef.set(userData, {
       merge: true
@@ -112,6 +124,10 @@ export class AuthService {
   signOut() {
     return this.afAuth.signOut().then(() => {
       localStorage.removeItem('user');
+      localStorage.removeItem('collection');
+      localStorage.removeItem('recentlyViewed');
+      localStorage.removeItem('cardView');
+      localStorage.removeItem('uid');
       this.router.navigate(['login']);
     })
   }

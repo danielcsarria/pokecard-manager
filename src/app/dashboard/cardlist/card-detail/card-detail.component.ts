@@ -54,9 +54,16 @@ export class CardDetailComponent implements OnInit {
 
   }
 
-  onAddToCollection() {
+  onAdd() {
     this.inCollection = true;
     this.userService.addToCollection(this.thisCard);
   }
+
+  onRemove() {
+    this.inCollection = false;
+    this.userService.removeFromCollection(this.thisCard);
+  }
+
+
 
 }

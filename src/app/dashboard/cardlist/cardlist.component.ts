@@ -24,7 +24,7 @@ export class CardlistComponent implements OnInit {
   filteredValue : string;
   gridView : string;
   loading: boolean = true;
-  displayedColumns: string[] = ['btns', 'set', 'no', 'name', 'rarity', 'types', 'supertype', 'subtypes', 'price'];
+  displayedColumns: string[] = ['', 'Set', 'No.', 'Name', 'Rarity', 'Types', 'Supertype', 'Subtypes', 'Price'];
   
   dataSource = new MatTableDataSource<PokemonCard[]>();
 
@@ -37,7 +37,6 @@ export class CardlistComponent implements OnInit {
     private router: Router,
     private api : ApiService,
     private userService: UserService,
-    private changeDetectorRefs: ChangeDetectorRef
   ) { }
 
   ngOnInit(): void {
@@ -151,19 +150,12 @@ export class CardlistComponent implements OnInit {
   }
 
   onRemove(card:PokemonCard) {
-    //this.userService.removeFromCollection(card);
-    // this.cardList= this.cardList;
+    this.userService.removeFromCollection(card);
     this.cardList.forEach((cl, index) => {
       if(cl.id === card.id) {
         this.cardList.splice(index, 1);
       }
     });
-
-    // this.changeDetectorRefs.detectChanges();
-    this.dataSource.data = this.dataSource.data;
-    
-    console.log(this.cardList);
-    // this.cardList = newCardList;
   }
   
 

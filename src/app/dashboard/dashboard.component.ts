@@ -10,26 +10,20 @@ import { UserService } from '../shared/services/user.service';
 })
 export class DashboardComponent implements OnInit {
 
-  recentlyViewd;
+  recentlyViewed;
 
   constructor(
     private authService: AuthService,
+    private userService : UserService
   ) {
-    //console.log(this.recentlyViewd)
-
+    
   }
 
   ngOnInit(): void {
-    //this.getRecentlyViewd();
+
   }
 
-  // getRecentlyViewd() {
-  //   const recentlyViewd = localStorage.getItem('recentlyViewd')
-  //   if(recentlyViewd) {
-  //     console.log(JSON.parse(recentlyViewd))
-  //     this.recentlyViewd = JSON.parse(recentlyViewd);
-  //   }
-  // }
+
 
   onLogout(){
     this.authService.signOut();

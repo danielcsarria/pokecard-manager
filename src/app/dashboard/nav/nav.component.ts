@@ -55,11 +55,11 @@ export class NavComponent implements OnInit {
   }
 
   onLogout(){ 
-    this.authService.signOut()
+    this.authService.signOut();
   }
 
   onLogoClick(){
-    this.router.navigate(['/dashboard'])
+    this.router.navigate(['/dashboard']);
   }
 
 }

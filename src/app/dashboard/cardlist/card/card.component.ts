@@ -29,7 +29,7 @@ export class CardComponent implements OnInit {
 
   onCardClick(card:PokemonCard) {
     this.router.navigate(['/dashboard', 'card'], {queryParams: {id: card.id}});
-    this.userService.addToRecentlyViewd(card)
+    this.userService.addTorecentlyViewed(card)
   }
 
   onAddToCollection(card:PokemonCard) {

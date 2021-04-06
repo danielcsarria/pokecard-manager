@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AngularFirestore } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
 import { AuthService } from './shared/services/auth.service';
 
@@ -11,7 +12,8 @@ export class AppComponent implements OnInit{
   
   constructor(
     private auth: AuthService,
-    private router: Router
+    private router: Router,
+    private store: AngularFirestore
   ) {
 
   }

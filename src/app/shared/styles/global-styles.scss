@@ -207,8 +207,12 @@ table {
     tr {
         background-color: #303030;
         text-align: center;
-        td {
-            padding: 3px 0;
+        td,
+        th {
+            padding: 8px 0;
+            border-bottom: 1px rgba(255,255,255,.12) solid;
+            border-right: none;
+            border-left: none;
         }
         &:hover {
             background-color: #212121;

@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import { PokemonCard } from '../models/pokemon-card.model';
@@ -11,12 +12,20 @@ export class UserService {
   recentlyViewed = new BehaviorSubject<any>(null)
 
   constructor(
-    private router: Router
+    private router: Router,
+    private afs: AngularFirestore
   ) { }
 
-  addToRecentlyViewd(pokemonCard: PokemonCard) {
-    const lsRecentlyViewd = localStorage.getItem('recentlyViewd');
-    const recentlyViewed = lsRecentlyViewd ? JSON.parse(lsRecentlyViewd) : [];
+  userInfo: AngularFirestoreCollection<any>;
+
+  getUserInfo(uid) {
+    return this.afs.collection('userInfo', ref => ref.where('uid', '==', uid)).valueChanges()
+  }
+
+
+  addTorecentlyViewed(pokemonCard: PokemonCard) {
+    const lsrecentlyViewed = localStorage.getItem('recentlyViewed');
+    const recentlyViewed = lsrecentlyViewed ? JSON.parse(lsrecentlyViewed) : [];
     const filtered = new Set();
     recentlyViewed.push(pokemonCard);
 
@@ -34,12 +43,12 @@ export class UserService {
 
     })
 
-    localStorage.setItem('recentlyViewd', JSON.stringify(filteredArr));
+    localStorage.setItem('recentlyViewed', JSON.stringify(filteredArr));
     this.recentlyViewed.next(filteredArr);
   }
 
   goToDetail(card: PokemonCard) {
-    this.addToRecentlyViewd(card);
+    this.addTorecentlyViewed(card);
     this.router.navigate(['/dashboard', 'card'], {queryParams: {id: card.id}});
   }
 
@@ -49,7 +58,7 @@ export class UserService {
     const filtered = new Set();
     card['inCollection'] = true;
     collection.push(card);
-    this.addToRecentlyViewd(card);
+    this.addTorecentlyViewed(card);
     const filteredCollection = collection.filter(el => {
       const duplicate = filtered.has(el.id);
       filtered.add(el.id);
@@ -62,14 +71,13 @@ export class UserService {
 
   removeFromCollection(card:PokemonCard) {
     const collection = this.getCollection();
-    collection.map((col, index) => {
+    collection.forEach((col, index) => {
       if(col.id === card.id){
         console.log("DELETE ", col.name + " in index ", index);
         collection.splice(index, 1)
       }
     })
-    // localStorage.setItem('collection', JSON.stringify(collection))
-    // console.log(collection)
+    localStorage.setItem('collection', JSON.stringify(collection))
   }
 
   getCollection() {
