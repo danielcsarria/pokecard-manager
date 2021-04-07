@@ -15,13 +15,15 @@ import { CollectionComponent } from 'src/app/dashboard/collection/collection.com
 
 const routes: Routes = [
   { path: 'login', component: AuthComponent, children: [
-    {path: '', component: LoginComponent, pathMatch: 'full'},
+    {path: '', redirectTo: 'auth', pathMatch: 'full'},
+    {path: 'auth', component: LoginComponent, pathMatch: 'full'},
     {path: 'register', component: RegisterComponent, pathMatch: 'full'},
     {path: 'forgot-password', component: ForgotPasswordComponent, pathMatch: 'full'},
     {path: 'verify-email', component: VerifyEmailComponent, pathMatch: 'full'},
   ]},
   { path: 'dashboard', component: DashboardComponent, canActivateChild:[AuthGuardService], children: [
-    {path: '', component: SearchComponent, pathMatch: 'full'},
+    {path: '', redirectTo: 'search', pathMatch : 'full'},
+    {path: 'search', component: SearchComponent, pathMatch: 'full'},
     {path: 'set-list', component: SetlistComponent, pathMatch: 'full'},
     {path: 'card-list', component: CardlistComponent, pathMatch: 'full'},
     {path: 'card', component: CardDetailComponent, pathMatch: 'full'},
