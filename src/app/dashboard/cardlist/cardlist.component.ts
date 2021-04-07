@@ -1,12 +1,12 @@
-import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PokemonCard } from 'src/app/shared/models/pokemon-card.model';
 import { ApiService } from 'src/app/shared/services/api.service';
 import {FormControl} from '@angular/forms';
-import {Observable, of} from 'rxjs';
+import {Observable} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
 import {MatSort} from '@angular/material/sort';
-import { UserService } from 'src/app/shared/services/user.service';
+import { CardService } from 'src/app/shared/services/card.service';
 import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
@@ -36,7 +36,7 @@ export class CardlistComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private api : ApiService,
-    private userService: UserService,
+    private cardService: CardService,
   ) { }
 
   ngOnInit(): void {
@@ -75,7 +75,7 @@ export class CardlistComponent implements OnInit {
       })
     }
     if(params.myCollection) {
-      const data = this.userService.getCollection();
+      const data = this.cardService.getCollection();
       const setID = params.setID;
       const collection = [];
       data.map(d => {
@@ -92,7 +92,7 @@ export class CardlistComponent implements OnInit {
   }
 
   onCardClick(card: PokemonCard) {
-    this.userService.goToDetail(card);
+    this.cardService.goToDetail(card);
   }
 
   onBaseClick(id:string){
@@ -114,7 +114,7 @@ export class CardlistComponent implements OnInit {
   setCards(data) {
     const cardList = [];
     const options = [];
-    const collection = this.userService.getCollection();
+    const collection = this.cardService.getCollection();
     const dataSet = data['data'] ? data['data'] : data;
     dataSet.map(card => {
       var inCollection = false
@@ -146,11 +146,11 @@ export class CardlistComponent implements OnInit {
   }
 
   onAdd(card:PokemonCard) {
-    this.userService.addToCollection(card);
+    this.cardService.addToCollection(card);
   }
 
   onRemove(card:PokemonCard) {
-    this.userService.removeFromCollection(card);
+    this.cardService.removeFromCollection(card);
     this.cardList.forEach((cl, index) => {
       if(cl.id === card.id) {
         this.cardList.splice(index, 1);

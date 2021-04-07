@@ -2,18 +2,24 @@
     <div class="set-container">
         <h1>My Collection</h1>
         <hr>
-        <div class="flex row content-container five">
+        <div class="flex row content-container five" *ngIf="collectionSet > 0; else noCollection">
             <mat-card 
                 class="set-card card"
                 *ngFor="let set of collectionSet"
                 (click)="onCollectionSetClick(set.id)"
             >
                 <mat-card-header>
-                <mat-card-title>{{set.name}}</mat-card-title>
-                <mat-card-subtitle>{{set.series}} - {{set.releaseDate}}</mat-card-subtitle>
+                    <mat-card-title>{{set.name}}</mat-card-title>
+                    <mat-card-subtitle>{{set.series}} - {{set.releaseDate}}</mat-card-subtitle>
                 </mat-card-header>
                 <div class="img-container" style="background-image: url({{set.images.logo}})"></div>
             </mat-card>
         </div>
+        <ng-template #noCollection>
+            <div class="row content-container">
+                <p>You haven't added any cards yet. Try <a class="link" [routerLink]="['/dashboard']">searching</a> for a card or browse by <a class="link" [routerLink]="['/dashboard', 'set-list']">set</a>!</p>
+            </div>
+        </ng-template>
+        
     </div>
 </div>

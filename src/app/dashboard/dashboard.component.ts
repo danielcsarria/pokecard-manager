@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { PokemonCard } from '../shared/models/pokemon-card.model';
 import { AuthService } from '../shared/services/auth.service';
-import { UserService } from '../shared/services/user.service';
+import { CardService } from '../shared/services/card.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -10,21 +9,14 @@ import { UserService } from '../shared/services/user.service';
 })
 export class DashboardComponent implements OnInit {
 
-  recentlyViewed;
-
   constructor(
     private authService: AuthService,
-    private userService : UserService
   ) {
     
   }
 
-  ngOnInit(): void {
-
-  }
-
-
-
+  ngOnInit(): void {}
+  
   onLogout(){
     this.authService.signOut();
   }

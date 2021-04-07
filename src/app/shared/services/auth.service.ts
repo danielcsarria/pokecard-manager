@@ -1,8 +1,8 @@
-import { EventEmitter, Injectable, NgZone, Output} from '@angular/core';
+import { EventEmitter, Injectable, NgZone} from '@angular/core';
 import { User } from "../models/user.model";
 import  firebase  from 'firebase/app';
 import { AngularFireAuth } from "@angular/fire/auth";
-import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/firestore';
+import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { Router } from "@angular/router";
 import { BehaviorSubject } from 'rxjs';
 
@@ -15,7 +15,7 @@ export class AuthService {
   
   authMessage = new EventEmitter<string>();
   userInfo = new BehaviorSubject<any>(null);
-  userMeta = new BehaviorSubject<any>(null);
+  recentlyViewed$ = new BehaviorSubject<any>(null);
   
   constructor(
     public afs: AngularFirestore,   // Inject Firestore service
@@ -98,13 +98,10 @@ export class AuthService {
 
   setUserData(user) {
     const userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${user.uid}`);
-    const userMeta = this.afs.collection('userInfo', ref => ref.where('uid', '==', user.uid)).valueChanges();
-    let thisMeta;
-    userMeta.subscribe(meta => {
-      const data = meta[0]
-      console.log("HERE: ", data)
-    })
 
+    
+    this.setUserMeta(user.uid)
+    
     const userData: User = {
       uid: user.uid,
       email: user.email,
@@ -113,8 +110,7 @@ export class AuthService {
       emailVerified: user.emailVerified
     }
 
-    //console.log("meta =>", thisMeta)
-    this.userMeta.next(thisMeta);
+    
     this.userInfo.next(userData)
     return userRef.set(userData, {
       merge: true
@@ -128,8 +124,43 @@ export class AuthService {
       localStorage.removeItem('recentlyViewed');
       localStorage.removeItem('cardView');
       localStorage.removeItem('uid');
+      localStorage.removeItem('collectionID');
       this.router.navigate(['login']);
     })
+  }
+
+  setUserMeta(uid: string) {
+    const userMeta = this.afs.collection('userInfo', ref => ref.where('uid', '==', uid))
+    userMeta.snapshotChanges().subscribe(action => {
+      let collectionID: string;
+      console.log('action =>', action)
+      if(action.length > 0) {
+        action.map(a => {
+          const data = a.payload.doc.data();
+          collectionID = a.payload.doc.id
+          let recentlyViewed;
+          for (const [key, value] of Object.entries(data)) {
+            localStorage.setItem(key, value);
+            if(key == 'recentlyViewed') {
+              recentlyViewed = value;
+            }
+          }
+          this.recentlyViewed$.next(recentlyViewed);  
+        })
+        localStorage.setItem('collectionID', collectionID)
+      } else {
+        console.log("there is no action data!!")
+        this.afs.collection('userInfo').add({
+          cardView: 'grid_on',
+          collection: '[]',
+          recentlyViewed: '[]',
+          uid: uid
+        }).then(docRef => {
+          localStorage.setItem('collectionID', docRef.id)
+        })
+      }
+      
+    }) 
   }
 
   getUserData() {

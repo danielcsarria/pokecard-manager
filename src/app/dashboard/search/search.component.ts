@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/shared/services/auth.service';
-import { UserService } from 'src/app/shared/services/user.service';
+import { CardService } from 'src/app/shared/services/card.service';
 
 @Component({
   selector: 'app-search',
@@ -13,7 +13,7 @@ export class SearchComponent implements OnInit {
   recentlyViwed :any;
   
   constructor(
-    private userService : UserService,
+    private cardService : CardService,
     private authService: AuthService,
     private router : Router
   ) { 
@@ -22,14 +22,13 @@ export class SearchComponent implements OnInit {
 
   ngOnInit(): void {
     const localrecentlyViewed = JSON.parse(localStorage.getItem('recentlyViewed'))
-    
-    this.authService.userMeta.subscribe((data: []) => {
-      // console.log("USER META =>", data)
-      // console.log("recentlyViewed =>", data['recentlyViewed'])
-      this.recentlyViwed = data['recentlyViewed'];
+  
+    this.authService.recentlyViewed$.subscribe((data) => {
+      if(data) {
+        this.recentlyViwed = JSON.parse(data);
+      }
     })
-
-    this.userService.recentlyViewed.subscribe(data => {
+    this.cardService.recentlyViewed$.subscribe(data => {
       this.recentlyViwed = data ? data : localrecentlyViewed;      
     })
   }

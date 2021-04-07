@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ApiService } from 'src/app/shared/services/api.service';
-import { UserService } from 'src/app/shared/services/user.service';
+import { CardService } from 'src/app/shared/services/card.service';
 
 @Component({
   selector: 'app-collection',
@@ -14,7 +14,7 @@ export class CollectionComponent implements OnInit {
 
   constructor(
     private apiService : ApiService,
-    private UserService : UserService,
+    private cardService : CardService,
     private router : Router
   ) { }
 
@@ -24,7 +24,7 @@ export class CollectionComponent implements OnInit {
 
   getSetList() {
     const setList = []
-    const collection = this.UserService.getCollection();
+    const collection = this.cardService.getCollection();
     const filtered = new Set();
 
     collection.map((col) => {

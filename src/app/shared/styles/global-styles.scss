@@ -30,19 +30,18 @@ a.link {
     //border-bottom: 2px solid $primary;
     &::after {
         content: " ";
-        width: 100%;
+        width: 25%;
         height: 2px;
         background-color: $primary;
         position: absolute;
-        bottom: -10px;
-        opacity: 0;
+        bottom: -2px;
+        opacity: 1;
         left: 0;
         transition: 250ms ease-in-out;
     }
     &:hover {
         &::after {
-            bottom: -2px;
-            opacity: 1;
+            width: 100%;
         }
     }
 }
@@ -81,6 +80,7 @@ a.link {
 
 .add {
     background-color: rgb(49 255 106);
+    color: black;
 }
 
 .flex {

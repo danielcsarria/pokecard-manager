@@ -20,6 +20,7 @@
                 class="card"
                 *ngFor="let card of recentlyViwed.reverse()"
                 [card]="card"
+                [showInCollection]="false"
             >
             </app-card>
         </div>
