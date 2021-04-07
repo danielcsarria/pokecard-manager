@@ -2,7 +2,7 @@
     <div class="set-container">
         <h1>My Collection</h1>
         <hr>
-        <div class="flex row content-container five" *ngIf="collectionSet > 0; else noCollection">
+        <div class="flex row content-container five" *ngIf="collectionSet.length > 0; else noCollection">
             <mat-card 
                 class="set-card card"
                 *ngFor="let set of collectionSet"
