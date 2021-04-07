@@ -28,6 +28,11 @@ a.link {
     cursor: pointer;
     //padding-bottom: 3px;
     //border-bottom: 2px solid $primary;
+    &.alt {
+        &::after {
+            background-color: #212121;
+        }
+    }
     &::after {
         content: " ";
         width: 25%;
